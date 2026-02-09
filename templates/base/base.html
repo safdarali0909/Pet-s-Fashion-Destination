@@ -1,0 +1,331 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock title %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{% static '/css/style.css ' %}?v=27 ">
+    <style>
+     
+     
+        {% comment %} #wifi-loader {
+            {% comment %} --background: #62abff; {% endcomment %}
+             {% comment %} background-color:rgba(255, 255, 255, 0.973);  {% endcomment %}
+            {% comment %} --front-color: #000; {% endcomment %}
+            {% comment %} --back-color: #c3c8de; {% endcomment %}
+            {% comment %} --text-color: #414856;
+            width: 100%;
+            height: 100%; {% endcomment %}
+            {% comment %} border-radius: 50px; {% endcomment %}
+            {% comment %} position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000; {% endcomment %}
+            {% comment %} border:1px solid black; {% endcomment %}
+        }
+
+        {% comment %} #wifi-loader svg {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #wifi-loader svg circle {
+            position: absolute;
+            fill: none;
+            stroke-width: 6px;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transform: rotate(-100deg);
+            transform-origin: center;
+        } {% endcomment %}
+
+        {% comment %} #wifi-loader svg circle.back {
+            stroke: var(--back-color);
+        }
+
+        #wifi-loader svg circle.front {
+            stroke: var(--front-color);
+        }
+
+        #wifi-loader svg.circle-outer {
+            height: 86px;
+            width: 86px;
+        }
+
+        #wifi-loader svg.circle-outer circle {
+            stroke-dasharray: 62.75 188.25;
+        }
+
+        #wifi-loader svg.circle-outer circle.back {
+            animation: circle-outer135 1.8s ease infinite 0.3s;
+        }
+
+        #wifi-loader svg.circle-outer circle.front {
+            animation: circle-outer135 1.8s ease infinite 0.15s;
+        }
+
+        #wifi-loader svg.circle-middle {
+            height: 60px;
+            width: 60px;
+        }
+
+        #wifi-loader svg.circle-middle circle {
+            stroke-dasharray: 42.5 127.5;
+        }
+
+        #wifi-loader svg.circle-middle circle.back {
+            animation: circle-middle6123 1.8s ease infinite 0.25s;
+        }
+
+        #wifi-loader svg.circle-middle circle.front {
+            animation: circle-middle6123 1.8s ease infinite 0.1s;
+        }
+
+        #wifi-loader svg.circle-inner {
+            height: 34px;
+            width: 34px;
+        }
+
+        #wifi-loader svg.circle-inner circle {
+            stroke-dasharray: 22 66;
+        }
+
+        #wifi-loader svg.circle-inner circle.back {
+            animation: circle-inner162 1.8s ease infinite 0.2s;
+        }
+
+        #wifi-loader svg.circle-inner circle.front {
+            animation: circle-inner162 1.8s ease infinite 0.05s;
+        }
+
+        #wifi-loader .text {
+            position: absolute;
+            bottom: -40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-transform: lowercase;
+            font-weight: 500;
+            font-size: 14px;
+            letter-spacing: 0.2px;
+        }
+
+        #wifi-loader .text::before,
+        #wifi-loader .text::after {
+            content: attr(data-text);
+        } {% endcomment %}
+
+        {% comment %} #wifi-loader .text::before {
+            color: var(--text-color);
+        }
+
+        #wifi-loader .text::after {
+            color: var(--front-color);
+            animation: text-animation76 3.6s ease infinite;
+            position: absolute;
+            left: 0;
+        }
+
+        @keyframes circle-outer135 {
+            0% { stroke-dashoffset: 25; }
+            25% { stroke-dashoffset: 0; }
+            65% { stroke-dashoffset: 301; }
+            80% { stroke-dashoffset: 276; }
+            100% { stroke-dashoffset: 276; }
+        }
+
+        @keyframes circle-middle6123 {
+            0% { stroke-dashoffset: 17; }
+            25% { stroke-dashoffset: 0; }
+            65% { stroke-dashoffset: 204; }
+            80% { stroke-dashoffset: 187; }
+            100% { stroke-dashoffset: 187; }
+        }
+
+        @keyframes circle-inner162 {
+            0% { stroke-dashoffset: 9; }
+            25% { stroke-dashoffset: 0; }
+            65% { stroke-dashoffset: 106; }
+            80% { stroke-dashoffset: 97; }
+            100% { stroke-dashoffset: 97; }
+        }
+
+        @keyframes text-animation76 {
+            0% { clip-path: inset(0 100% 0 0); }
+            50% { clip-path: inset(0); }
+            100% { clip-path: inset(0 0 0 100%); }
+        }
+
+        /* Hide loader when page content is loaded */
+        .hidden { display: none; }
+         {% endcomment %}
+	.profile-icon {
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		border: 3px solid #ddd; /* Blue color ring */
+		object-fit: contain;
+	}
+    </style>
+</head>
+<body>
+    {% comment %} <div id="wifi-loader">
+        <svg viewBox="0 0 86 86" class="circle-outer">
+            <circle r="40" cy="43" cx="43" class="back"></circle>
+            <circle r="40" cy="43" cx="43" class="front"></circle>
+            <circle r="40" cy="43" cx="43" class="new"></circle>
+        </svg>
+        <svg viewBox="0 0 60 60" class="circle-middle">
+            <circle r="27" cy="30" cx="30" class="back"></circle>
+            <circle r="27" cy="30" cx="30" class="front"></circle>
+        </svg>
+        <svg viewBox="0 0 34 34" class="circle-inner">
+            <circle r="14" cy="17" cx="17" class="back"></circle>
+            <circle r="14" cy="17" cx="17" class="front"></circle>
+        </svg>
+        <div data-text="Loading" class="text" style="color:black"></div>
+    </div> {% endcomment %}
+    <nav class="navbar">
+        <div class="logo">
+            <img src="/static/images/logo/s1.png" alt="Logo">
+        </div>
+        <div class="menu-toggle" id="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="{% url "shop" %}">Shop</a>
+            {% comment %} <a href="{% url "blog" %}">Blog</a> {% endcomment %}
+            <a href="{% url "order" %}">Orders</a>
+            <a href="{% url "About" %}">About Us</a>
+            <a href="{% url "feedback" %}">Contact Us</a>
+        </div>
+        <div class="icons" style="display: flex; align-items: center; gap: 20px;">
+
+            <form action="{% url 'search_products' %}" method="get" class="search-bar" id="search-bar" style="display: flex; align-items: center;">
+                <input type="text" name="q" placeholder="Search products..." required>
+                <button type="submit" id="search-toggle">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+        
+            {% if custom_user and profile %}
+            {% comment %} {% include "base/alert.html" %} {% endcomment %}
+                <div class="cart-icon">
+                    <a href="{% url 'cart' %}">
+                        <i class="fas fa-shopping-cart"></i>
+                    </a>
+                    <span class="counter">{{ custom_user.profile.get_cart_counter }}</span>
+                </div>
+                <div class="widget-header" style="margin-top: -5px;" class="UserProfile">
+						<a href="{% url 'UserProfile' %}" class="icon icon-sm rounded-circle">
+							<!-- Check if user has a profile image and use default image if not -->
+							<img src="{% if custom_user.profile.profile_image %}{{ custom_user.profile.profile_image.url }}{% else %}/static/images/usericon.png{% endif %}" alt="User Icon" class="profile-icon" style="width: 40px; height: 40px; border-radius: 50%; border: 3px solid #ddd; object-fit: contain;">
+						</a>
+                        
+					</div>
+                <div class="user-icon">
+                    <i class="fa-solid fa-user" style="font-size:20px;">
+                        <span style="font-size:14px; margin-left:5px; ont-size:20px">
+                            <a href="{% url 'logout' %}" class="newa">Logout</a>
+                        </span>
+                    </i>
+                </div>
+            {% else %}
+                <div>
+                    <a href="{% url 'Login' %}">
+                        <button class="sign-in-btn">
+                            <i class="fa-solid fa-right-to-bracket" style="margin:5px;"></i>Sign In
+                        </button>
+                    </a>
+                </div>
+            {% endif %}
+        
+        </div>
+    </nav>
+
+    {% block body %}
+    
+    {% endblock body %}
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-about">
+                <h2>About Us</h2>
+                <p>We are committed to providing our customers with exceptional service while offering our employees the best training.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h2>Quick Links</h2>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Shop</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h2>Contact Us</h2>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Amber Tower, Ahemdabad, India</li>
+                    <li><i class="fas fa-phone"></i> +123 456 7890</li>
+                    <li><i class="fas fa-envelope"></i> info@example.com</li>
+                </ul>
+            </div>
+            <div class="footer-subscribe">
+                <h2>Subscribe</h2>
+                <p>Sign up for our newsletter to get the latest updates and offers.</p>
+                <form action="#">
+                    <input type="email" placeholder="Enter your email">
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Your Company. All rights reserved.</p>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchBar = document.getElementById('search-bar');
+            const searchToggle = document.getElementById('search-toggle');
+            const menuToggle = document.getElementById('menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+
+            searchToggle.addEventListener('click', function() {
+                searchBar.classList.toggle('open');
+            });
+
+            menuToggle.addEventListener('click', function() {
+                navLinks.classList.toggle('mobile');
+                navLinks.classList.toggle('show');
+            });
+        });
+        {% comment %} window.addEventListener("load", function () {
+            // Store the loader element
+            const loader = document.getElementById("wifi-loader");
+            
+            // Set timeout to hide loader after 2 seconds
+            setTimeout(function() {
+                loader.style.display = "none";
+                // Or alternatively:
+                // loader.classList.add("hidden");
+            }, 3000); {% endcomment %}
+
+    </script>
+</body>
+</html>

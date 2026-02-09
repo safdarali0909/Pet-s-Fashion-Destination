@@ -1,0 +1,228 @@
+{% extends "base/base.html" %}
+
+{% block body %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Orders</title>
+    <style>
+     
+        
+        .order-container {
+            background-color: #f3f3f3;
+            color: #111;
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .order-header {
+            font-size: 28px;
+            font-weight: normal;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .order-container {
+            background-color: rgba(0,0,0,0.0.3);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .order-meta {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .meta-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .meta-label {
+            font-size: 12px;
+            color: #565959;
+            margin-bottom: 5px;
+        }
+        
+        .meta-value {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .dropdown-icon {
+            margin-left: 5px;
+            color: #565959;
+        }
+        
+        .order-links {
+            display: flex;
+            gap: 15px;
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+        
+        .order-link {
+            color: #0066c0;
+            text-decoration: none;
+        }
+        
+        .order-link:hover {
+            text-decoration: underline;
+            color: #c45500;
+        }
+        
+        .order-item {
+            display: flex;
+            gap: 20px;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .item-image {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+        }
+        
+        .item-details {
+            flex: 1;
+        }
+        
+        .item-title {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        
+        .item-status {
+            font-size: 12px;
+            color: #565959;
+            margin-bottom: 10px;
+        }
+        
+        .item-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .action-btn {
+            padding: 5px 15px;
+            border-radius: 8px;
+            border: 1px solid #d5d9d9;
+            background: #f0f2f2;
+            font-size: 13px;
+            cursor: pointer;
+            color: #0f1111;
+        }
+        
+        .action-btn:hover {
+            background: #e3e6e6;
+        }
+        
+        .secondary-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        
+        .secondary-link {
+            color: #0066c0;
+            text-decoration: none;
+            font-size: 13px;
+        }
+        
+        .secondary-link:hover {
+            text-decoration: underline;
+            color: #c45500;
+        }
+        
+        .archive-btn {
+            margin-top: 15px;
+            color: #0066c0;
+            text-decoration: none;
+            font-size: 13px;
+            display: inline-block;
+        }
+        
+        .archive-btn:hover {
+            text-decoration: underline;
+            color: #c45500;
+        }
+        .your-order{
+            margin-top:30px;
+            text-align:center;
+            font-family:Arial;
+            margin-bottom:10px;
+        }
+    </style>
+
+
+    {% include "base/alert.html" %}
+      <h1 class="your-order">Your Orders</h1>
+    {% for order in orders %}
+    <div class="order-container">
+    
+        <div class="order-meta">
+            <div class="meta-group">
+                <span class="meta-label">ORDER PLACED</span>
+                <span class="meta-value">{{ order.order_date|date:"d F Y" }}</span>
+            </div>
+            <div class="meta-group">
+                <span class="meta-label">DELIVERY DATE</span>
+                <span class="meta-value">{{ order.delivery_date }}</span>
+            </div>
+            <div class="meta-group">
+                <span class="meta-label">SHIP TO</span>
+                <span class="meta-value">{{ order.delivery_address.name }}</span>
+            </div>
+            <div class="meta-group">
+                <span class="meta-label">Order status</span>
+                <span class="meta-value">{{ order.status}}</span>
+            </div>
+        </div>
+    
+        <div class="order-item">
+            <img src="/media/{{ order.product.products_images.first.image }}" alt="Product" class="item-image"> 
+            <div class="item-details">
+                <div class="item-title">{{ order.product.product_name }}</div>
+                <div class="item-status">Quantity: {{ order.quantity }}</div>
+                <div class="item-status">Price: ₹{{ order.total_price }}</div>
+            </div>
+            {% if order.status != "Cancelled" %}
+            <form action="{% url 'cancel_order' order.id %}" method="post" style="margin-top: 10px;">
+                {% csrf_token %}
+                <button type="submit" class="action-btn" style="background-color: #ffecec; color: #b12704; border-color: #b12704;">
+                    ❌ Cancel Order
+                </button>
+            </form>
+        {% else %}
+            <p style="color: #b12704; margin-top: 10px; font-weight: bold;">Order Cancelled</p>
+        {% endif %}
+        </div>
+    
+        <div class="secondary-actions">
+            <a href="#" class="secondary-link">Get product support</a>
+            <a href="#" class="secondary-link">Write a product review</a>
+        </div>
+    
+        <a href="#" class="archive-btn">Archive order</a>
+    
+    </div>
+    {% empty %}
+    <p>No orders found.</p>
+    {% endfor %}
+
+{% endblock body %}

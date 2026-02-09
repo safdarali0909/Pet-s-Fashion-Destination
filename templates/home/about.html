@@ -1,0 +1,292 @@
+{% extends "base/base.html" %}
+{% block title %}About Us - Paws & Style{% endblock title %}
+{% load static %}
+{% block body %}
+
+<div id="content">
+<section class="about-us">
+    <div class="container">
+        <h1>About T-pets Fashion</h1>
+
+        <!-- Our Story Section -->
+        <div class="section">
+            <div class="section-content">
+                <div class="image">
+                    <img src="{% static 'images/about/pets-shop.jpg' %}" alt="Our Pet Boutique">
+                </div>
+                <div class="text">
+                    <h2>Our Story</h2>
+                    <p>T-Pets was founded in 2018 when our founder, a passionate dog lover, couldn't find fashionable yet comfortable clothing for her poodle. What started as a small Etsy shop making custom pet sweaters has grown into a premier destination for pet fashion.</p>
+                    <p>From our first hand-knit dog sweater to our current collection of seasonal outfits, accessories, and luxury pet beds, we've remained committed to combining style with pet comfort and safety.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Our Mission Section -->
+        <div class="section">
+            <div class="section-content">
+                <div class="text">
+                    <h2>Our Mission</h2>
+                    <p>At T-pets, we believe pets deserve to look as fabulous as they make us feel. Our mission is to provide high-quality, comfortable, and stylish pet fashion that celebrates the unique personality of every furry friend.</p>
+                    <p>We carefully design each piece with pet comfort in mind, using only non-toxic, pet-safe materials. Whether you're looking for a raincoat for walks, a cozy winter sweater, or a special occasion outfit, we've got your pet covered in style.</p>
+                </div>
+                <div class="image">
+                    <img src="{% static 'images/about/fashion-show.jpg' %}" alt="Dog Fashion Show">
+                </div>
+            </div>
+        </div>
+
+        <!-- Our Vision Section -->
+        <div class="section">
+            <div class="section-content">
+                <div class="image">
+                    <img src="{% static 'images/about/happy-pets.jpg' %}" alt="Happy Pets in Our Clothes">
+                </div>
+                <div class="text">
+                    <h2>Our Vision</h2>
+                    <p>We envision a world where pet fashion is about more than just looks - where every outfit enhances the bond between pets and their owners while ensuring comfort and safety.</p>
+                    <p>Our goal is to become the global leader in ethical pet fashion, setting industry standards for sustainable production while bringing joy to pets and their humans through our creative designs.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Our Values Section -->
+        <div class="section">
+            <div class="section-content">
+                <div class="text">
+                    <h2>Our Values</h2>
+                    <p>These principles guide everything we do at Paws & Style:</p>
+                    <ul>
+                        <li><strong>Pet Comfort First:</strong> Fashion should never compromise comfort or safety.</li>
+                        <li><strong>Sustainable Style:</strong> We use eco-friendly materials and ethical production methods.</li>
+                        <li><strong>Inclusivity:</strong> Fashion for all pets - we design for all shapes, sizes, and breeds.</li>
+                        <li><strong>Community:</strong> We donate 5% of profits to animal shelters and support pet adoption initiatives.</li>
+                        <li><strong>Innovation:</strong> Constantly improving our designs based on pet behavior research.</li>
+                    </ul>
+                </div>
+                <div class="image">
+                    <img src="{% static 'images/about/pet-values.jpg' %}" alt="Our Values in Action">
+                </div>
+            </div>
+        </div>
+
+        {% comment %} <!-- Meet the Team Section -->
+        <div class="section">
+            <h2>Meet the Pack</h2>
+            <div class="team">
+                <div class="team-member">
+                    <img src="{% static 'avatars/ceo-with-dog.jpg' %}" alt="Emma with her poodle">
+                    <h3>Emma Richardson</h3>
+                    <p>Founder & Lead Designer</p>
+                    <p>Proud owner of Coco, our original muse</p>
+                </div>
+                <div class="team-member">
+                    <img src="{% static 'avatars/cm-with-cats.jpg' %}" alt="Jamal with his cats">
+                    <h3>Jamal Chen</h3>
+                    <p>Creative Director</p>
+                    <p>Specializes in feline fashion</p>
+                </div>
+                <div class="team-member">
+                    <img src="{% static 'avatars/product-with-puppy.jpg' %}" alt="Sophia with puppy">
+                    <h3>Sophia Rodriguez</h3>
+                    <p>Product Safety Expert</p>
+                    <p>Ensures all materials are pet-safe</p>
+                </div>
+            </div>
+        </div> {% endcomment %}
+
+        <!-- Customer Testimonials Section -->
+        <div class="section">
+            <h2>Bark About Us</h2>
+            <div class="testimonials">
+                <div class="testimonial">
+                    <p>"My dachshund used to hate clothes until we tried T-pets. The perfect fit and soft fabric changed everything - now he struts in his outfits!"</p>
+                    <h4>- Olivia K., with Winston</h4>
+                </div>
+                <div class="testimonial">
+                    <p>"Finally found a raincoat that actually keeps my lab dry and doesn't make her look ridiculous. Worth every penny!"</p>
+                    <h4>- Michael T., with Luna</h4>
+                </div>
+                <div class="testimonial">
+                    <p>"The Halloween costumes are our favorite - safe, comfortable, and the most creative designs we've found."</p>
+                    <h4>- The Chen Family, with Mochi & Tofu</h4>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Us Section -->
+        <div class="section">
+            <h2>Join Our Pack</h2>
+            <p>Have questions about sizing, materials, or special requests? Our pet-loving team is here to help!</p>
+            <p>Email: woof@t-pets.com | Phone: (555) T-PETS</p>
+            <p>Follow us @t-pets for daily pet fashion inspiration!</p>
+        </div>
+    </div>
+</section>
+</div>
+
+<style>
+    .about-us {
+        padding: 50px 0;
+        background-color: #fff;
+    }
+    
+    .container {
+        width: 80%;
+        margin: 0 auto;
+    }
+    
+    h1 {
+        text-align: center;
+        font-size: 36px;
+        margin-bottom: 40px;
+        color: #ff6b88;
+    }
+    
+    .section {
+        margin-bottom: 60px;
+    }
+    
+    .section-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+    
+    .section-content .image,
+    .section-content .text {
+        flex: 1;
+        min-width: 300px;
+        margin: 20px;
+    }
+    
+    .section-content .image img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    .section-content .text {
+        margin-left: 20px;
+    }
+    
+    .section-content .text h2 {
+        font-size: 28px;
+        color: #5e4b8b;
+        margin-bottom: 15px;
+    }
+    
+    .section-content .text p {
+        font-size: 18px;
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+    
+    ul {
+        list-style-type: none;
+        padding-left: 0;
+    }
+    
+    ul li {
+        font-size: 18px;
+        margin-bottom: 15px;
+        padding-left: 25px;
+        position: relative;
+    }
+    
+    ul li:before {
+        content: "🐾";
+        position: absolute;
+        left: 0;
+    }
+    
+    .team {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+    
+    .team-member {
+        text-align: center;
+        margin: 20px;
+        flex: 1;
+        min-width: 250px;
+    }
+    
+    .team-member img {
+        border-radius: 50%;
+        width: 180px;
+        height: 180px;
+        object-fit: cover;
+        border: 4px solid #ffd166;
+    }
+    
+    .team-member h3 {
+        margin-top: 15px;
+        font-size: 22px;
+        color: #333;
+    }
+    
+    .team-member p {
+        font-size: 18px;
+        color: #777;
+        margin: 5px 0;
+    }
+    
+    .testimonials {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .testimonial {
+        max-width: 600px;
+        margin-bottom: 30px;
+        text-align: center;
+        padding: 20px;
+        background-color: #f9f3f6;
+        border-radius: 15px;
+        position: relative;
+    }
+    
+    .testimonial:before {
+        content: """;
+        font-size: 60px;
+        color: #ffb6c1;
+        position: absolute;
+        left: 10px;
+        top: -10px;
+    }
+    
+    .testimonial p {
+        font-size: 20px;
+        font-style: italic;
+        color: #555;
+    }
+    
+    .testimonial h4 {
+        margin-top: 10px;
+        font-size: 18px;
+        color: #5e4b8b;
+        font-weight: bold;
+    }
+    
+    @media (max-width: 768px) {
+        .section-content {
+            flex-direction: column;
+        }
+    
+        .section-content .text {
+            margin-left: 0;
+        }
+    
+        .team {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+</style>
+{% endblock body %}

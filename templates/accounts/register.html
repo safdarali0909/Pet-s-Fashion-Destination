@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Modern Registration Form</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #e9ecef;
+        }
+
+        .registration-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .registration-container h2 {
+            text-align: center;
+            color: #333333;
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .registration-container form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .registration-container label {
+            font-size: 14px;
+            color: #555555;
+            margin-bottom: 5px;
+        }
+
+        .registration-container input {
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #cccccc;
+            font-size: 16px;
+            color: #333333;
+            background-color: #f9f9f9;
+            transition: border-color 0.3s;
+        }
+
+        .registration-container input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        .registration-container button {
+            padding: 12px;
+            background-color: rgb(69, 75, 133);
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        .registration-container button:hover {
+            background-color: #0046c0;
+        }
+
+        .registration-container p {
+            font-size: 14px;
+            color: #666666;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .registration-container p a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .registration-container p a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="registration-container">
+        {% include "base/alert.html" %}
+        <h2>Create an Account</h2>
+        <form action="#" method="post">
+            {% csrf_token %}
+            <label for="username">Username</label>
+            <input type="text" id="first_name" name="first" placeholder="Enter your username" required>
+
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="pass" placeholder="Enter your password" required>
+
+            <label for="confirm-password">Confirm Password</label>
+            <input type="password" id="confirm-password" name="confirm_password" placeholder="Confirm your password" required> 
+
+            <button type="submit">Register</button>
+        </form>
+
+        <p>Already have an account? <a href="{% url "Login" %}">Sign in here</a></p>
+    </div>
+    
+</body>
+</html>

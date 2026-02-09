@@ -1,0 +1,335 @@
+{% extends "base/base.html" %}
+{% block title %}Blog{% endblock title %}Blog
+{% load static %}
+{% block body %}
+{% comment %} <style>
+    a {
+        color: #007bff;
+        text-decoration: none;
+    }
+    
+    a:hover {
+        text-decoration: underline;
+    }
+     {% endcomment %}
+    {% comment %} /* Hero Banner */
+    .hero-banner {
+        {% comment %} position: relative; {% endcomment %}
+        {% comment %} width: 100%;
+        height: 400px;
+        background-color: #fff;
+        color: white;
+        overflow: hidden;
+    } {% endcomment %}
+     {% comment %} {% endcomment %}
+    {% comment %} .hero-banner img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: brightness(50%);
+    } {% endcomment %}
+    
+    {% comment %} .banner-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: #333;
+    }
+     {% endcomment %}
+    {% comment %} .banner-content h1 {
+        font-size: 3rem;
+        margin: 0;
+        color:#333; {% endcomment %}
+    }
+    
+    {% comment %} .banner-content p {
+        font-size: 1.25rem;
+    } {% endcomment %}
+{% comment %}     
+    /* Featured Posts */
+    .featured-posts {
+        padding: 2rem 1rem;
+        background-color: white;
+    } {% endcomment %} 
+{% comment %}     
+    .featured-posts h2 {
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: 2rem;
+    }
+    
+    .posts-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem; {% endcomment %}
+    }
+    
+    {% comment %} .post {
+        background-color: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .post:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); {% endcomment %}
+    }
+    
+    {% comment %} .post img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+    
+    .post h3 {
+        font-size: 1.5rem;
+        margin: 1rem;
+    }
+    
+    .post p {
+        font-size: 1rem;
+        color: #666;
+        margin: 0 1rem 1rem;
+    }
+    
+    /* Recent Posts */
+    .recent-posts {
+        padding: 2rem 1rem;
+        background-color: #f9f9f9;
+    }
+    
+    .recent-posts h2 {
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: 2rem; {% endcomment %}
+    }
+    
+    {% comment %} /* Categories */
+    .categories {
+        padding: 2rem 1rem;
+        background-color: white;
+    }
+    
+    .categories h2 {
+        text-align: center;
+        margin-bottom: 1rem;
+        font-size: 2rem;
+    }
+    
+    .categories ul {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+    }
+    
+    .categories ul li {
+        display: inline;
+    }
+    
+    .categories ul li a {
+        display: block;
+        padding: 0.75rem 1.5rem;
+        background-color: #007bff;
+        color: white;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+    }
+    
+    .categories ul li a:hover {
+        background-color: #0056b3;
+    }
+    
+    /* Popular Posts */
+    .popular-posts {
+        padding: 2rem 1rem;
+        background-color: #f9f9f9;
+    } {% endcomment %}
+    
+    {% comment %} .popular-posts h2 {
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: 2rem;
+    }
+    
+    /* Subscription Form */
+    .subscription-form {
+        padding: 2rem 1rem;
+        background-color: white;
+        text-align: center;
+    }
+    
+    .subscription-form h2 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .subscription-form p {
+        margin-bottom: 1rem;
+        font-size: 1.25rem;
+        color: #666;
+    }
+    
+    .subscription-form form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .subscription-form input[type="email"] {
+        padding: 0.75rem;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        width: 100%;
+        max-width: 500px;
+        margin-bottom: 1rem;
+    }
+    
+    .subscription-form button {
+        padding: 0.75rem 2rem;
+        border-radius: 4px;
+        border: none;
+        background-color: #007bff;
+        color: white;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    
+    .subscription-form button:hover {
+        background-color: #0056b3;
+    }
+    
+    /* Container */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem; {% endcomment %}
+    }
+{% comment %} </style> {% endcomment %}
+{% comment %} <section class="hero-banner">
+    <div class="banner-content">
+        <h1>Welcome to Our Blog</h1>
+        <p>Explore the latest insights, trends, and stories from the world of e-commerce.</p>
+    </div>
+</section> {% endcomment %}
+
+<!-- Featured Posts Section -->
+{% comment %} <section class="featured-posts">
+    <div class="container">
+        <h2>Featured Posts</h2>
+        <div class="posts-grid">
+            <article class="post">
+                <img src="{% static 'images/about/mission.webp' %}" alt="Featured Post 1">
+                <h3><a href="#">The Future of Online Shopping</a></h3>
+                <p>Discover how technology is shaping the future of e-commerce.</p>
+            </article>
+            <article class="post">
+                <img src="{% static 'images/blog/top10.jpg' %}" alt="Featured Post 2">
+                <h3><a href="#">Top 10 Fashion Trends for 2024</a></h3>
+                <p>Stay ahead of the curve with these upcoming fashion trends.</p>
+            </article>
+            <article class="post">
+                <img src="{% static 'images/blog/sustainable.png' %}" alt="Featured Post 3">
+                <h3><a href="#">Sustainable Shopping: A Guide</a></h3>
+                <p>Learn how to make more sustainable choices when shopping online.</p>
+            </article>
+        </div>
+    </div>
+</section>
+
+<!-- Recent Posts Section -->
+<section class="recent-posts">
+    <div class="container">
+        <h2>Recent Posts</h2>
+        <div class="posts-grid">
+            <article class="post">
+                <img src="{% static 'images/blog/duzy.jpg' %}" alt="Recent Post 1">
+                <h3><a href="#">How to Choose the Right Size When Shopping Online</a></h3>
+                <p>A guide to finding the perfect fit without trying on clothes.</p>
+            </article>
+            <article class="post">
+                <img src="{% static 'images/blog/raise ai.png' %}" alt="Recent Post 2">
+                <h3><a href="#">The Rise of AI in Customer Service</a></h3>
+                <p>How artificial intelligence is changing the way we shop online.</p>
+            </article>
+            <article class="post">
+                <img src="{% static 'images/blog/top6.jpg' %}" alt="Recent Post 3">
+                <h3><a href="#">Top 6 E-commerce Platforms for Your Business</a></h3>
+                <p>Which platform is the best for your online store? We break it down.</p>
+            </article>
+            <article class="post">
+                <img src="{% static 'images/blog/samless1.png' %}" alt="Recent Post 4">
+                <h3><a href="#">How to Create a Seamless Checkout Experience</a></h3>
+                <p>Improve your conversion rates with a smooth and easy checkout process.</p>
+            </article>
+            <article class="post">
+                <img src="{% static 'images/blog/mobile opmiz.png' %}" alt="Recent Post 5">
+                <h3><a href="#">The Importance of Mobile Optimization</a></h3>
+                <p>Why your online store needs to be mobile-friendly.</p>
+            </article>
+            <article class="post">
+                <img src="{% static 'images/blog/importance.jpg' %}" alt="Recent Post 6">
+                <h3><a href="#">Understanding the Impact of Online Reviews</a></h3>
+                <p>How customer feedback can make or break your online business.</p>
+            </article>
+        </div>
+    </div>
+</section>
+
+<!-- Categories Section -->
+<section class="categories">
+    <div class="container">
+        <h2>Categories</h2>
+        <ul>
+            <li><a href="#">Fashion</a></li>
+            <li><a href="#">Technology</a></li>
+            <li><a href="#">Home & Living</a></li>
+            <li><a href="#">Health & Beauty</a></li>
+            <li><a href="#">Fitness</a></li>
+        </ul>
+    </div>
+</section>
+
+<!-- Popular Posts Section -->
+<section class="popular-posts">
+    <div class="container">
+        <h2>Popular Posts</h2>
+        <div class="posts-grid">
+            <article class="post">
+                <img src="{% static 'images/blog/loyalty.webp' %}" alt="Popular Post 1">
+                <h3><a href="#">Why You Need a Loyalty Program</a></h3>
+                <p>Boost customer retention with a well-designed loyalty program.</p>
+            </article>
+            <article class="post">
+                <img src="{% static 'images/blog/benifit.webp' %}" alt="Popular Post 2">
+                <h3><a href="#">The Benefits of Free Shipping</a></h3>
+                <p>How offering free shipping can increase your sales.</p>
+            </article>
+            <article class="post">
+                <img src="{% static 'images/blog/tryone.png' %}" alt="Popular Post 3">
+                <h3><a href="#">The Future of Virtual Try-Ons</a></h3>
+                <p>How augmented reality is changing the way we shop online.</p>
+            </article>
+        </div>
+    </div>
+</section>
+
+<!-- Subscription Form Section -->
+<section class="subscription-form">
+    <div class="container">
+        <h2>Subscribe to Our Newsletter</h2>
+        <p>Stay updated with the latest posts and exclusive offers.</p>
+        <form action="#" method="post">
+            <input type="email" placeholder="Enter your email" required>
+            <button type="submit">Subscribe</button>
+        </form>
+    </div>
+</section> {% endcomment %}
+{% endblock body %}

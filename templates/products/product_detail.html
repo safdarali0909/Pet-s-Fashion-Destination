@@ -1,0 +1,417 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% load humanize %}
+{% block body %}
+
+
+
+
+
+    <style>
+       
+
+        
+     
+       .container {
+            max-width: 1200px;
+            margin: 10px auto;
+            padding: 0 20px;
+            font-family: 'Arial', sans-serif;
+        } 
+
+        /* Product Section Styles */
+        .product-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            background-color: #ffffff;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .product-images {
+            flex: 1;
+        }
+
+        .main-image {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+        }
+
+        .main-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .main-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .thumbnail-container {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding: 0 1rem;
+            display:inline-flex;
+        }
+
+        .thumbnail {
+            width: 90px;
+            height: 90px;
+            border: 2px solid transparent;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            overflow: hidden;
+            transition: border-color 0.3s ease;
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .thumbnail:hover, .thumbnail.active {
+            border-color: #3b82f6;
+        }
+
+        .product-details {
+            flex: 1;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .product-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .rating-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .stars {
+            color: #f59e0b;
+        }
+
+        .reviews, .orders {
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        .price {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #3b82f6;
+            margin-left:-350px;
+        }
+
+        .description {
+            font-size: 1rem;
+            color: #64748b;
+            line-height: 1.5;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .spec-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .spec-label {
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .spec-value {
+            color: #64748b;
+        }
+
+        .quantity-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .quantity-btn {
+            margin-top:10px;
+            width: 2.5rem;
+            height: 2.5rem;
+            border: 1px solid #e2e8f0;
+            background-color: #f8fafc;
+            color: #64748b;
+            font-size: 1.25rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quantity-btn:hover {
+            background-color: #e2e8f0;
+            color: #1e293b;
+        }
+
+        .quantity-display {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1e293b;
+            width: 2.5rem;
+            text-align: center;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .buy-now-btn, .add-cart-btn {
+            flex: 1;
+            margin-top:20px;
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+
+            
+
+        .buy-now-btn {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+        }
+
+        .buy-now-btn:hover {
+            background-color: #2563eb;
+            
+        }
+
+        .add-cart-btn {
+            background-color: #f8fafc;
+            color: #3b82f6;
+            border: 2px solid #3b82f6;
+        }
+        .add-cart-btn  a{
+            color: #3b82f6;
+            text-decoration: none;
+        }
+
+        .add-cart-btn:hover {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .add-cart-btn a:hover {
+            color: white;
+        }
+
+        @media (min-width: 768px) {
+            .product-container {
+                flex-direction: row;
+            }
+
+            .product-images, .product-details {
+                flex: 1;
+            }
+
+            .main-image {
+                height: 500px;
+            }
+        }
+    </style>
+
+    {% include "base/alert.html" %}
+    <div class="container">
+        <div class="product-container">
+            <div class="product-images">
+                <div class="main-image">
+                    <img src="/media/{{product.products_images.first.image}}" alt=" X" id="mainImage">
+                </div>
+                {% for image  in product.products_images.all  %}
+                <div class="thumbnail-container">
+                    <div class="thumbnail active">
+                        <img src="/media/{{image.image}}" alt="iPhone X thumbnail 1" onclick="changeImage(this)">
+                    </div>
+                </div>
+                {% endfor %}
+                    {% comment %} <div class="thumbnail">
+                        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/iphone-x-thumb2-0Iy4Xq0Hy4Hy9Hy4Hy4Hy4Hy4Hy4Hy.jpg" alt="iPhone X thumbnail 2" onclick="changeImage(this)">
+                    </div>
+                    <div class="thumbnail">
+                        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/iphone-x-thumb3-0Iy4Xq0Hy4Hy9Hy4Hy4Hy4Hy4Hy4Hy.jpg" alt="iPhone X thumbnail 3" onclick="changeImage(this)">
+                    </div>
+                </div> {% endcomment %}
+            </div>
+
+            <div class="product-details">
+                <h1 class="product-title" style="margin-left:-100px;">{{product.product_name}}</h1>
+                
+                <div class="rating-container">
+                    <div class="stars">
+                        ★★★★☆
+                    </div>
+                    <span class="reviews">132 reviews</span>
+                    <span class="orders">154 orders</span>
+                </div>
+
+                <div class="price">₹{{product.price|intcomma}}</div>
+
+                <p class="description">{{product.product_discription}}</p>
+
+                <div class="specs-grid">
+                    
+                    {% comment %} <div class="spec-item">
+                        <span class="spec-label">Color</span>
+                        <span class="spec-value">Blue</span>
+                    </div> {% endcomment %}
+                   
+                    
+                    <div class="spec-item">
+                        <span class="spec-label">Delivery</span>
+                        <span class="spec-value">India</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Delivery Date</span>
+                        <span class="spec-value">{{ delivery_date|date:"F d, Y" }}</span>
+                    </div>
+                </div>
+
+                <div>
+                    
+                    {% if available_stock > 0 %}
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="quantity" id="quantityInput" value="1">
+                
+                        <div class="spec-label">Quantity</div>
+                        <div class="quantity-container">
+                            <button type="button" class="quantity-btn" onclick="updateQuantity(-1)">-</button>
+                            <span class="quantity-display" id="quantityDisplay">1</span>
+                            <button type="button" class="quantity-btn" onclick="updateQuantity(1)">+</button>
+                        </div>
+                
+                        <input type="hidden" id="stockLimit" value="{{ available_stock }}">
+                        {% comment %} <p>Available Stock: <strong id="stockLimit">{{ available_stock }}</strong></p> {% endcomment %}
+                
+                        <div class="action-buttons">
+                            <button type="submit" formaction="{% url 'add_to_cart' product.uid %}" class="add-cart-btn">Add to cart</button>
+                        </div>
+                    </form>
+                {% else %}
+                    <div class="spec-label" style="color: red; font-size: 30px; font-weight: bold; position: absolute; top: 380px; left: 250px; rotate: -15deg; text-shadow: 2px 2px #ff0000;">
+                        Product is Out of Stock
+                    </div>
+                    {% comment %} <p>Available Stock: <strong id="stockLimit">0</strong></p> {% endcomment %}
+                    <div class="quantity-container" style="opacity: 0.5; pointer-events: none;">
+                        <button type="button" class="quantity-btn">-</button>
+                        <span class="quantity-display">0</span>
+                        <button type="button" class="quantity-btn">+</button>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="add-cart-btn" style="background-color: grey; color: white; cursor: not-allowed;" disabled>Out of Stock</button>
+                    </div>
+                {% endif %}
+
+                {% comment %} <div class="action-buttons">
+                    <button class="buy-now-btn">Buy now</button>
+                    <button class="add-cart-btn"> <a href="{% url 'add_to_cart' product.uid %}">Add to cart</a></button>
+                </div> {% endcomment %}
+            </div>
+        </div>
+    </div>
+</div>
+    <script>
+        {% if available_stock > 0 %}
+             let quantity = 1;
+            const maxStock = parseInt(document.getElementById('stockLimit').value);
+            
+            function updateQuantity(change) {
+                quantity += change;
+            
+                if (quantity < 1) {
+                    quantity = 1;
+                } else if (quantity > maxStock) {
+                    quantity = maxStock;
+                    alert(`Only ${maxStock} item(s) available in stock.`);
+                }
+            
+                document.getElementById('quantityDisplay').textContent = quantity;
+                document.getElementById('quantityInput').value = quantity;
+            } 
+
+            {% comment %} let quantity = 1;
+    const maxStock = parseInt(document.getElementById('stockLimit').value);
+    
+    function updateQuantity(change) {
+        quantity += change;
+    
+        if (quantity < 1) {
+            quantity = 1;
+        } else if (quantity > maxStock) {
+            quantity = maxStock;
+            // No alert here - the backend will handle this
+        }
+    
+        document.getElementById('quantityDisplay').textContent = quantity;
+        document.getElementById('quantityInput').value = quantity;
+    } {% endcomment %}
+    
+            
+    {% endif %}
+        
+        function changeImage(thumbnail) {
+            const mainImage = document.getElementById('mainImage');
+            mainImage.src = thumbnail.src.replace('thumb', 'main');
+            
+            // Update active thumbnail
+            document.querySelector('.thumbnail.active').classList.remove('active');
+            thumbnail.parentElement.classList.add('active');
+        }
+        {% comment %} let quantity = 1;
+        const maxStock = parseInt(document.getElementById('stockLimit').textContent); 
+    
+        function updateQuantity(change) {
+            quantity += change;
+    
+            if (quantity < 1) {
+                quantity = 1;
+            } else if (quantity > maxStock) {
+                quantity = maxStock;
+                alert(`Only ${maxStock} item(s) available in stock.`);
+            }
+    
+            document.getElementById('quantityDisplay').textContent = quantity;
+            document.getElementById('quantityInput').value = quantity;
+        }  {% endcomment %}
+    </script>
+
+
+
+
+
+
+
+
+ 
+     
+    
+
+
+{% endblock body %}

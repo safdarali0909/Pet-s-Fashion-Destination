@@ -1,0 +1,170 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% load humanize %}
+{% block title %}Shop{% endblock title %}
+
+{% block body %}
+{% comment %} create a drop downlist {% endcomment %}
+<style>
+    .out-of-stock {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: red;
+        color: white;
+        font-size: 12px;
+        font-weight: bold;
+        padding: 5px 10px;
+        border-radius: 4px;
+        z-index: 10;
+    }
+    
+    .sale-tag {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: green;
+        color: white;
+        font-size: 12px;
+        font-weight: bold;
+        padding: 5px 10px;
+        border-radius: 4px;
+        z-index: 10;
+    }
+    .meta-group {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .meta-label {
+        font-size: 12px;
+        color: #565959;
+        margin-bottom: 5px;
+    }
+    .filter-section {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.filter-toggle {
+    background-color: #222;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.filter-toggle i {
+    margin-right: 5px;
+}
+
+.filter-menu {
+    margin-top: 10px;
+    padding: 15px;
+    background-color: #f2f2f2;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.filter-group {
+    margin-bottom: 15px;
+}
+
+.filter-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.filter-group select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.apply-button {
+    background-color: green;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+</style>
+
+<div class="filter-section">
+    <button class="filter-toggle" onclick="toggleFilterMenu()">
+        <i class="fas fa-filter"></i> Filter
+    </button>
+</div>
+  <div id="filter-menu" class="filter-menu" style="display: none;">
+    <form method="get" action="{% url "shop" %}">
+        {% csrf_token %}
+        
+        <!-- Category Filter (Checkbox) -->
+        <div class="filter-group">
+            <label>Category:</label>
+            {% for cat in all_categories %}
+                <label style="display: block;">
+                    <input type="checkbox" name="category" value="{{ cat }}" {% if request.GET.category == cat %}checked{% endif %}>
+                    {{ cat }}
+                </label>
+            {% endfor %}
+        </div>
+
+        <!-- Price Filter (Checkbox) -->
+        <div class="filter-group">
+            <label>Price:</label>
+            {% for val, label in price_choices %}
+                <label style="display: block;">
+                    <input type="checkbox" name="price" value="{{ val }}" {% if val in selected_prices %}checked{% endif %}>
+                    {{ label }}
+                </label>
+            {% endfor %}
+        </div>
+        <button type="submit" class="apply-button">Apply</button>
+    </form>
+</div>
+        </form>
+    </div>
+</div>
+    <div class="category-section">
+       
+        <h2 class="category-title">{{ category }}</h2>
+       
+        <div class="product-grid">
+            {% for product in products %}
+            <div class="product-card">
+                <a href="{% url 'get_products' product.slug %}" style="list-style: none; text-decoration:none">
+                    {% if product.products_images.first %}
+                    <img src="{{ product.products_images.first.image.url }}" alt="Product Image" class="product-image">
+                    {% else %}
+                    <img src="{% static 'images/default_product.jpg' %}" alt="Default Product Image" class="product-image">
+                    {% endif %}
+                    <span class="sale-tag">Sale</span>
+                    <div class="product-info">
+                        <h3 class="product-name">{{ product.product_name }}</h3>
+                        <div class="star-rating">
+                            {% comment %} ★★★★☆ {% endcomment %}
+                        </div>
+                        <p class="price">₹{{ product.price|intcomma }}</p>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    
+</div>
+
+
+ <script>
+    function toggleFilterMenu() {
+        const menu = document.getElementById("filter-menu");
+        menu.style.display = menu.style.display === "none" ? "block" : "none";
+    }
+</script>
+
+{% endblock body %}

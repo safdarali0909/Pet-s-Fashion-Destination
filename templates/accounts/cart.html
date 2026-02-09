@@ -1,0 +1,320 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% load humanize %}
+{% block title %}{% endblock title %}
+
+{% block body %}
+
+    <style>
+        {% comment %} body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        } {% endcomment %}
+        .container-cartpg {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .cart-items {
+            width: 65%;
+        }
+        .cart-summary {
+            width: 30%;
+        }
+        h2 {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 15px 10px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+            
+        }
+        th {
+            position: relative;
+            color: #888;
+            font-weight: normal;
+            
+        }
+        .cart-product-images {
+            width: 75px;
+            height: 75px;
+            object-fit: contain;
+            border-radius: 5px;
+        }
+        .product-details {
+            display: flex;
+        }
+        .product-info {
+            margin-left: 15px;
+        }
+        .product-name {
+            font-weight: bold;
+            margin: 0 0 5px 0;
+        }
+        .product-meta {
+            color: #888;
+            font-size: 14px;
+            margin: 0;
+        }
+        .quantity-control {
+            display: flex;
+            align-items: center;
+        }
+        .quantity-btn {
+            background: none;
+            border: 1px solid #ddd;
+            padding: 5px 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .quantity {
+            margin: 0 10px;
+        }
+        .total-price {
+            color: #f0a500;
+            font-weight: bold;
+        }
+        .cart-section {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .cart-section h3 {
+            margin-top: 0;
+        }
+        select, input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            {% comment %} margin-bottom: 10px; {% endcomment %}
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .btn-ac {
+            width: 100%;
+            padding: 10px;
+            background-color: #000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top:10px;
+        }
+        .btn-ac a{
+            color:white;
+            text-decoration: none;
+        }
+        .cart-total {
+            background-color: #fff3d9;
+        }
+        .cart-total p {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+        }
+        .rmvbtn{
+            padding:10px;
+            color:white;
+            background-color:white;
+            border-radius: 10px;
+            font-size: 13.5px;
+            font-weight: bold;
+            cursor: pointer;
+            border-color:orange;
+        }
+        .rmvbtn a{
+            color:Black;
+            text-decoration:none;
+        }
+        .rmvbtn a:hover{
+            color: orange;
+            transition:.5s;
+        }
+    </style>
+  {% include "base/alert.html" %}
+    {% if cartItems %}
+    <div class="container-cartpg">
+        <div class="cart-items">
+            <h2>{{request.user.profile.get_cart_counter}} items in your bag.</h2>
+            <table>
+                <thead>
+                    
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for item in cartItems %}
+                    <tr>
+                        <td>
+                            <div class="product-details">
+                                <img src="/media/{{item.product.products_images.first.image}}" alt="Floral Print Wrap Dress" class="cart-product-images">
+                                <div class="product-info">
+                                    <p class="product-name">{{item.product.product_name}}</p>
+                                   
+                                </div>
+                            </div>
+                        </td>
+                        
+                        <td>
+                            <form id="quantity-form-{{ item.uid }}" action="{% url 'update_cart_item_quantity' item.uid %}" method="POST" style="display: flex; align-items: center; gap: 5px;">
+                              {% csrf_token %}
+                              
+                              <!-- Decrease Button -->
+                              <button type="submit" name="action" value="decrease" class="quantity-btn">
+                                <i class="fa-solid fa-minus" style="color:black; font-size: 13px;"></i>
+                              </button>
+                          
+                              <!-- Quantity Display (readonly or styled like text) -->
+                              <input type="text" name="quantity" value="{{ item.quantity }}" readonly style="width: 40px; text-align: center; border: none; background: transparent; font-weight: bold;" />
+                          
+                              <!-- Increase Button -->
+                              <button type="submit" name="action" value="increase" class="quantity-btn">
+                                <i class="fa-solid fa-plus" style="color:black; font-size: 13px;"></i>
+                              </button>
+                            </form>
+                          </td>
+                        <td class="total-price">₹{{item.get_total_price| intcomma}}</td>
+                        <td><a href="{% url 'remove_cart_item' item.uid %}"><i class="fa-regular fa-circle-xmark" style="font-size:25px;color:black"></i></a></button></td>
+                    </tr>
+                    {% endfor %}
+                   
+                </tbody>
+            </table>
+        </div>
+        <div class="cart-summary">
+            {% comment %} <div class="cart-section">
+                <h3>Calculated Shipping</h3>
+                <select>
+                    <option>Country</option>
+                </select>
+                <select>
+                    <option>State / City</option>
+                </select>
+                <input type="text" placeholder="ZIP Code">
+                <button>Update</button>
+            </div> {% endcomment %}
+            {% comment %} <div class="cart-section">
+                <h3>Coupon Code</h3>
+                <input type="text" placeholder="Coupon Code">
+                <button class="btn-ac">Apply</button>
+            </div> {% endcomment %}
+            <div class="cart-section cart-total">
+                <h3>Cart Total</h3>
+                <p><span>Cart Subtotal</span> <span>₹{{cart_total | intcomma}}</span></p>
+                <p><span>shipping Charge</span> <span>₹{{flat_rate_shipping |intcomma}}</span></p>
+                <p><span>Discount</span> <span>-</span></p>
+                <p><strong><span>Cart Total</span> <span>₹{{cart_total_plus_shipping | intcomma}}</span></strong></p>
+                <button class="btn-ac"> <a href="{% url "checkout" %}">Checkout</a></button>
+            </div>
+        </div>
+    </div>
+    {% else %}
+        <center><a href="/"><img src="{% static 'images/empty-cart.jpg' %}" alt="Empty Cart" style="height:450px; object-fit:contain;  margin-top:20px;" ></a></center>
+        {% endif %}
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+  const csrfToken = '{{ csrf_token }}';
+
+  document.querySelectorAll('.quantity-control').forEach(control => {
+    const itemId = control.getAttribute('data-item-id');
+    const qtySpan = document.getElementById(`qty-${itemId}`);
+    const row = control.closest('tr');
+    const totalPriceCell = row.querySelector('.total-price');
+
+    control.querySelector('.increase-btn').addEventListener('click', () => {
+      updateQuantity(itemId, 'increase', qtySpan, totalPriceCell);
+    });
+
+    control.querySelector('.decrease-btn').addEventListener('click', () => {
+      updateQuantity(itemId, 'decrease', qtySpan, totalPriceCell);
+    });
+  });
+
+  function updateQuantity(uid, action, qtyElement, priceElement) {
+    fetch(`/cart/update-quantity/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrfToken,
+      },
+      body: JSON.stringify({ uid, action }),
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        // Update quantity display
+        qtyElement.innerText = data.quantity;
+        
+        // Update item price
+        if (data.item_total) {
+          priceElement.innerText = `₹${data.item_total}`;
+        }
+        
+        // Update cart totals
+        if (data.cart_total) {
+          document.querySelectorAll('.cart-total p').forEach(p => {
+            const label = p.querySelector('span:first-child').innerText.trim();
+            const valueSpan = p.querySelector('span:last-child');
+            
+            if (label === 'Cart Subtotal') {
+              valueSpan.innerText = `₹${data.cart_total}`;
+            } else if (label === 'Cart Total') {
+              valueSpan.innerText = `₹${data.cart_total_plus_shipping}`;
+            }
+          });
+          
+          // Update cart counter in header if exists
+          const cartCounter = document.querySelector('.cart-counter');
+          if (cartCounter && data.cart_counter) {
+            cartCounter.innerText = data.cart_counter;
+          }
+        }
+        
+        // If quantity becomes 0, remove the item
+        if (data.quantity === 0) {
+          const itemRow = qtyElement.closest('tr');
+          itemRow.style.transition = 'opacity 0.5s';
+          itemRow.style.opacity = '0';
+          
+          setTimeout(() => {
+            itemRow.remove();
+            
+            // If no items left, reload to show empty cart
+            if (document.querySelectorAll('.cart-items tbody tr').length === 0) {
+              location.reload();
+            }
+          }, 500);
+        }
+      } else if (data.error) {
+        // Show error message
+        alert(data.error);
+      }
+    })
+    .catch(error => {
+      console.error('Error updating quantity:', error);
+    });
+  }
+});
+          </script>
+          
+{% endblock body %}
+
+
+ 

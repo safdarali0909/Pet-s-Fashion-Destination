@@ -1,0 +1,97 @@
+{% extends "base/Base.html" %}
+
+{% block body %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit your Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .profile-image-container {
+            position: relative;
+            display: inline-block;
+        }
+        .profile-image-container img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 3px solid #ddd;
+            object-fit: cover;
+        }
+        .btn-change-profile {
+            display: block;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        .file-input {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    {% include "base/alert.html" %}
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Edit your Profile</h5>
+                <a href="/"><button type="button" class="btn-close btn-close-white" aria-label="Close"></button></a>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-3 text-center mb-3">
+                            <div class="profile-image-container">
+                                <!-- Use default image if profile image is not available -->
+                                <img src="{% if profile.profile_image %}{{ profile.profile_image.url }}{% else %}/static/images/usericon.png{% endif %}" alt="Profile Photo">
+                                <input type="file" name="profile_image" id="profile_image" class="file-input" onchange="previewImage(event)">
+                                <button type="button" class="btn btn-primary btn-change-profile" onclick="document.getElementById('profile_image').click();">
+                                    Change Profile Picture
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="mb-3 row">
+                                <label for="name" class="col-sm-3 col-form-label">Name:</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="name" name="name" value="{{ profile.name }}">
+                                </div>
+                            </div>
+                            
+                         
+                            
+                            <div class="mb-3 row">
+                                <label for="email" class="col-sm-3 col-form-label">Email:</label>
+                                <div class="col-sm-9">
+                                    <input type="email" class="form-control" id="email" name="email" value="{{ profile.email }}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-end mt-3">
+                        <a href="/"><button type="button" class="btn btn-secondary">Cancel</button></a>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function previewImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.querySelector('.profile-image-container img');
+                    img.src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+</body>
+</html>
+{% endblock body %}

@@ -1,0 +1,371 @@
+{% extends "base/base.html" %}
+
+{% block body %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout Page</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            background-color: #f3f3f3;
+            color: #333;
+        }
+        
+        .container {
+            display: flex;
+            max-width: 1200px;
+            margin: 20px auto;
+            gap: 20px;
+        }
+        
+        .checkout-form {
+            flex: 3;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        
+        .order-summary {
+            flex: 1;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 20px;
+            height: fit-content;
+        }
+        
+        .delivery-address {
+            border-bottom: 1px solid #e7e7e7;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .delivery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .delivery-header h2 {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .change-link {
+            color: #0066c0;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .address {
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+        
+        .add-instructions {
+            color: #0066c0;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .payment-method {
+            padding-bottom: 20px;
+        }
+        
+        .payment-method h2 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .payment-option {
+            border: 1px solid #e7e7e7;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .radio-option input {
+            margin-right: 10px;
+        }
+        
+        .balance-info {
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+            margin-left: 25px;
+        }
+        
+        .info-icon {
+            background-color: #0066c0;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            margin-right: 8px;
+        }
+        
+        .add-money {
+            color: #0066c0;
+            text-decoration: none;
+            margin-left: 5px;
+        }
+        
+        .code-input {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+        }
+        
+        .code-input input {
+            padding: 8px;
+            border: 1px solid #a6a6a6;
+            border-radius: 3px;
+            margin-right: 10px;
+            width: 220px;
+        }
+        
+        .apply-button {
+            background-color: #f0f0f0;
+            border: 1px solid #a6a6a6;
+            border-radius: 3px;
+            padding: 8px 15px;
+            cursor: pointer;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .order-total {
+            font-size: 18px;
+            font-weight: bold;
+            border-top: 1px solid #e7e7e7;
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+        
+        .payment-button {
+            background-color: #FFD814;
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            width: 100%;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        
+        .upi-section {
+            margin-top: 15px;
+        }
+        
+        .bank-info {
+            margin-left: 25px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .bank-icon {
+            font-size: 18px;
+            margin-left: 5px;
+        }
+        
+        .plus-icon {
+            color: #999;
+            font-size: 20px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+     <div class="checkout-form">
+      
+    <form method="POST" action="{% url "checkout" %}">
+        {% csrf_token %}
+        {% if delivery_address %}
+        <input type="hidden" name="delivery_address_id" value="{{ delivery_address.id }}">
+    {% endif %}
+    <div class="delivery-address">
+        <div class="delivery-header">
+            <h2>
+                {% if delivery_address %}
+                    Delivering to {{ delivery_address.name }}
+                {% else %}
+                    No delivery address found
+                {% endif %}
+            </h2>
+            {% if delivery_address %}
+                <a href="#" class="change-link">Change</a>
+            {% else %}
+                <a href="{% url 'add_address' %}" class="change-link">Add</a>
+            {% endif %}
+        </div>
+    
+        {% if delivery_address %}
+            <p class="address">
+                {{ delivery_address.address }},
+                {{ delivery_address.city }},
+                {{ delivery_address.zip_code }},
+                India
+            </p>
+            <a href="#" class="add-instructions">Add delivery instructions</a>
+        {% endif %}
+    </div>
+        
+            <div class="payment-method">
+                <h2>Payment method</h2>
+                
+                <div class="payment-option">
+                    <div class="section-title">Razorpay</div>
+                    <div class="radio-option">
+                        <input type="radio" name="payment" id="razorpay" value="razorpay" checked>
+                        <label for="razorpay">Pay using Razorpay</label>
+                    </div>
+                    <div class="bank-info">
+                        Secure and fast checkout with Razorpay 🚀
+                    </div>
+                </div>
+                   
+                </div>
+                
+         
+                {% comment %} <button type="button" id="proceedToPayBtn" class="payment-button">Proceed to Pay</button> {% endcomment %}
+                <button id="rzp-button1"  class="payment-button"> Proceed to Pay</button>
+            </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="order-summary">
+            {% comment %} <button class="payment-button">Use this payment method</button> {% endcomment %}
+            
+            <div class="summary-details" style="margin-top: 20px;">
+                {% for o in  cartItems %}
+                <div class="summary-row">
+                    <span>Items:</span>
+                    <span>--</span>
+                </div>
+                <div class="summary-row">
+                    <span>Delivery:</span>
+                    <span>--</span>
+                </div>
+                <div class="summary-row order-total">
+                    <span>Order Total:</span>
+                    <span>₹{{o.get_total_price}}</span>
+                </div>
+                {% endfor %}
+                
+            </div>
+        </div>
+    </div>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        var options = {
+            "key": "rzp_test_ngLnFzP58qBOsv",  // Use your Razorpay key dynamically or paste directly
+            "amount": "{{ payment.amount }}", // amount in paisa
+            "currency": "INR",
+            "name": "T-pets",
+            "description": "Payment for your order",
+            "image": "https://example.com/your-logo.jpg",
+            "order_id": "{{ payment.id }}",  // Razorpay order ID from Django
+        
+            "handler": function (response) {
+                fetch("", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                        "X-CSRFToken": "{{ csrf_token }}",
+                        "X-Requested-With": "XMLHttpRequest"
+                    },
+                    body: new URLSearchParams({
+                        razorpay_order_id: response.razorpay_order_id,
+                        razorpay_payment_id: response.razorpay_payment_id,
+                        razorpay_signature: response.razorpay_signature
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.message) {
+                        alert(data.message);
+                        window.location.href = "{% url 'order' %}";
+                    } else {
+                        alert(data.error || "Payment verification failed.");
+                    }
+                })
+                .catch(error => {
+                    alert("Something went wrong!");
+                    console.error("Error:", error);
+                });
+            },
+        
+            "prefill": {
+                "email": "{{ request.user.email }}", 
+                "contact": "{{ request.user.profile.phone_number|default:'9999999999' }}"
+            },
+        
+            "theme": {
+                "color": "#3399cc"
+            },
+        
+            // ✅ Recommended: use Razorpay's default display settings
+            "config": {
+                "display": {
+                    "preferences": {
+                        "show_default_blocks": true
+                    }
+                }
+            },
+        
+            "modal": {
+                "ondismiss": function () {
+                    alert("Payment popup closed. Please try again if needed.");
+                }
+            }
+        };
+        
+        var rzp1 = new Razorpay(options);
+        
+        document.getElementById('rzp-button1').onclick = function (e) {
+            rzp1.open();
+            e.preventDefault();
+        };
+      </script>
+</body>
+</html>
+
+
+{% endblock body %}
